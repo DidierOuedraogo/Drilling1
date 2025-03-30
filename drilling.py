@@ -20,7 +20,7 @@ st.set_page_config(
 def get_csv_download_link(df, filename, text):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()
-    href = f'Télécharger {text}'
+    href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">Télécharger {text}</a>'
     return href
 
 # Fonction pour créer une représentation 3D des forages
@@ -98,11 +98,7 @@ def create_drillhole_3d_plot(collars_df, survey_df, lithology_df=None, assays_df
                 name=f'Forage {hole_id}',
                 line=dict(width=4, color='blue'),
                 hoverinfo='text',
-                hovertext=[f'ID: {hole_id}
-X: {x:.2f}
-Y: {y:.2f}
-Z: {z:.2f}' 
-                           for x, y, z in zip(x_points, y_points, z_points)]
+                hovertext=[f'ID: {hole_id}<br>X: {x:.2f}<br>Y: {y:.2f}<br>Z: {z:.2f}' for x, y, z in zip(x_points, y_points, z_points)]
             )
         )
         
@@ -158,9 +154,7 @@ Z: {z:.2f}'
                                 name=f'Lithologie: {lith_type}',
                                 marker=dict(size=5, color=color),
                                 hoverinfo='text',
-                                hovertext=[f'Lithologie: {lith_type}
-Profondeur: {from_depth:.2f}-{to_depth:.2f}m' 
-                                          for _ in litho_x]
+                                hovertext=[f'Lithologie: {lith_type}<br>Profondeur: {from_depth:.2f}-{to_depth:.2f}m' for _ in litho_x]
                             )
                         )
         
@@ -219,9 +213,7 @@ Profondeur: {from_depth:.2f}-{to_depth:.2f}m'
                                     colorbar=dict(title=assay_value_col)
                                 ),
                                 hoverinfo='text',
-                                hovertext=[f'Teneur: {value:.2f}
-Profondeur: {from_depth:.2f}-{to_depth:.2f}m' 
-                                          for _ in assay_x]
+                                hovertext=[f'Teneur: {value:.2f}<br>Profondeur: {from_depth:.2f}-{to_depth:.2f}m' for _ in assay_x]
                             )
                         )
     
